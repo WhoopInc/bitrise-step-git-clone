@@ -17,17 +17,23 @@ git config --global gc.auto 0 || true
 echo "$(date +"%H:%M:%S") - git remote add origin $repository_url"
 git remote add origin $repository_url
 
-echo "$(date +"%H:%M:%S") - git clone --no-tags --single-branch --branch=$branch_dest $repository_url"
-git clone --no-tags --single-branch --branch=$branch_dest $repository_url
+echo "$(date +"%H:%M:%S") - git clone --no-tags --single-branch --jobs=10 --branch=$branch $repository_url"
+git clone --no-tags --single-branch --jobs=10 --branch=$branch $repository_url
+
+echo "$(date +"%H:%M:%S") - FIRST_COMMIT=git log $branch_dest..$branch --oneline | tail -1 | awk '{print $1;}'"
+FIRST_COMMIT=$(git log $branch_dest..$branch --oneline | tail -1 | awk '{print $1;}')
+
+echo "$(date +"%H:%M:%S") - FIRST_COMMIT_DATE=git show -s --format=%ci $FIRST_COMMIT --format=%as"
+FIRST_COMMIT_DATE=$(git show -s --format=%ci $FIRST_COMMIT --format=%as)
 
 echo "$(date +"%H:%M:%S") - git fetch origin $branch"
-git fetch origin $branch
+git fetch --jobs=10 --shallow-since=$FIRST_COMMIT_DATE origin $branch
 
 echo "$(date +"%H:%M:%S") - git checkout origin/$branch"
 git checkout origin/$branch
 
 echo "$(date +"%H:%M:%S") - git fetch origin $branch_dest"
-git fetch origin $branch_dest
+git fetch origin --jobs=10 --shallow-since=$FIRST_COMMIT_DATE $branch_dest
 
 echo "$(date +"%H:%M:%S") - git merge origin/$branch_dest"
 git merge origin/$branch_dest
