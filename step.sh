@@ -18,8 +18,8 @@ git remote add origin $repository_url
 echo "git clone -b $branch --no-tags --single-branch --depth=1 $repository_url"
 git clone -b $branch --no-tags --single-branch --depth=1 $repository_url
 
-echo "git checkout commit"
-git checkout commit
+echo "git checkout $commit"
+git checkout $commit
 
 echo "git merge origin/$branch_dest"
 git merge origin/$branch_dest
