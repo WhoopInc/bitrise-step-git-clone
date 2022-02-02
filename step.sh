@@ -24,8 +24,8 @@ git checkout main
 echo "git fetch --depth=1 --no-tags origin $commit"
 git fetch --depth=1 --no-tags origin $commit
 
-echo "git merge $commit"
-git merge $commit
+echo "git merge $commit --allow-unrelated-histories"
+git merge $commit --allow-unrelated-histories
 
 envman add --key "GIT_CLONE_COMMIT_AUTHOR_NAME" --value "$(git "log" "-1" "--format=%an" $commit)"
 echo "GIT_CLONE_COMMIT_AUTHOR_NAME: ${GIT_CLONE_COMMIT_AUTHOR_NAME}"
