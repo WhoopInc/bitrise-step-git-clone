@@ -15,17 +15,20 @@ git config --global gc.auto 0 || true
 echo "git remote add origin $repository_url"
 git remote add origin $repository_url
 
+echo "git fetch --no-tags origin $branch"
+git fetch --depth=1 --no-tags origin $branch
+
+echo "git checkout $branch"
+git checkout $branch
+
 echo "git fetch --no-tags origin main"
 git fetch --no-tags origin main
 
-echo "git checkout main"
-git checkout main
+echo "git log -n 1 main"
+git log -n 1 main
 
-echo "git fetch --depth=1 --no-tags origin $commit"
-git fetch --depth=1 --no-tags origin $commit
-
-echo "git merge $commit --allow-unrelated-histories"
-git merge $commit --allow-unrelated-histories
+echo "git merge $(git log -n 1 main) --allow-unrelated-histories"
+git merge $(git log -n 1 main) --allow-unrelated-histories
 
 envman add --key "GIT_CLONE_COMMIT_AUTHOR_NAME" --value "$(git "log" "-1" "--format=%an" $commit)"
 echo "GIT_CLONE_COMMIT_AUTHOR_NAME: ${GIT_CLONE_COMMIT_AUTHOR_NAME}"
