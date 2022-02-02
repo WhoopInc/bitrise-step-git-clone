@@ -81,49 +81,19 @@ inputs:
         If the Git hosting provider system supports and provides this,
         this special git ref should point to the source of the pull request.
       is_dont_change_value: true
-  - merge_pr: "yes"
+outputs:
+  - GIT_CLONE_COMMIT_HASH:
     opts:
-      category: Checkout options
-      title: Merge the Pull Request source branch into destination
-      summary: Allows to validate a temporary merged state.
-      description: |-
-        Disables merging the source and destination branches.
-        - `yes`: The default setting. Merges the source branch into the destination branch.
-        - `no`: Treats Pull Request events as Push events on the source branch.
-      value_options:
-        - "yes"
-        - "no"
-  - sparse_directories: ""
+      title: Cloned git commit's commit hash
+  - GIT_CLONE_COMMIT_MESSAGE_SUBJECT:
     opts:
-      category: Checkout options
-      title: Specify which directories to clone.
-      description: |-
-        Limit which directories should be cloned during the build. This could be useful if a repository contains multiple platforms, so called monorepositories, and the build is only targeting a single platform.
-        For example, specifying "src/android" the Step will only clone:
-        - contents of the root directory and
-        - contents of the "src/android" directory and all subdirectories of "src/android".
-        On the other hand, "src/ios" and any other directories will not be cloned.
-  - reset_repository: "No"
+      title: Cloned git commit's message subject
+  - GIT_CLONE_COMMIT_MESSAGE_BODY:
     opts:
-      category: Debug
-      summary: Reset repository contents with git reset --hard HEAD and git clean -f after repository updated.
-      title: Reset repository
-      value_options:
-        - "No"
-        - "Yes"
-  outputs:
-    - GIT_CLONE_COMMIT_HASH:
-      opts:
-        title: Cloned git commit's commit hash
-    - GIT_CLONE_COMMIT_MESSAGE_SUBJECT:
-      opts:
-        title: Cloned git commit's message subject
-    - GIT_CLONE_COMMIT_MESSAGE_BODY:
-      opts:
-        title: Cloned git commit's message body
-    - GIT_CLONE_COMMIT_AUTHOR_NAME:
-      opts:
-        title: Cloned git commit's author name
-    - GIT_CLONE_COMMIT_AUTHOR_EMAIL:
-      opts:
-        title: Cloned git commit's author email address
+      title: Cloned git commit's message body
+  - GIT_CLONE_COMMIT_AUTHOR_NAME:
+    opts:
+      title: Cloned git commit's author name
+  - GIT_CLONE_COMMIT_AUTHOR_EMAIL:
+    opts:
+      title: Cloned git commit's author email address
