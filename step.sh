@@ -20,9 +20,6 @@ git remote add origin $repository_url
 echo "$(date +"%H:%M:%S") - git clone --no-tags --single-branch --depth=1 --branch=$branch_dest $repository_url"
 git clone --no-tags --single-branch --depth=1 --branch=$branch_dest $repository_url
 
-echo "$(date +"%H:%M:%S") - git checkout $branch_dest"
-git checkout $branch_dest
-
 echo "$(date +"%H:%M:%S") - git fetch --jobs=10 --no-tags origin $branch"
 git fetch --jobs=10 --no-tags origin $branch
 
