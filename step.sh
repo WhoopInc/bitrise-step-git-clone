@@ -18,7 +18,7 @@ git remote add origin $repository_url
 echo "git clone --no-tags --single-branch --depth=1 --branch=$branch $repository_url"
 git clone --no-tags --single-branch --depth=1 --branch=$branch $repository_url
 
-echo "git checkout $branch"
+echo "git checkout origin/$branch"
 git checkout origin/$branch
 
 echo "git clone --no-tags --single-branch --depth=1 --branch=$main $repository_url"
