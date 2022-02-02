@@ -32,8 +32,8 @@ FIRST_COMMIT_DATE=$(git show -s --format=%ci $FIRST_COMMIT --format=%as)
 echo "$(date +"%H:%M:%S") - git fetch --jobs=10 --shallow-since=$FIRST_COMMIT_DATE origin $branch_dest"
 git fetch --jobs=10 --shallow-since=$FIRST_COMMIT_DATE origin $branch_dest
 
-echo "$(date +"%H:%M:%S") - git merge $branch_dest"
-git merge $branch_dest
+echo "$(date +"%H:%M:%S") - git merge origin/$branch_dest"
+git merge origin/$branch_dest
 
 GIT_CLONE_COMMIT_AUTHOR_NAME=$(git "log" "-1" "--format=%an" $commit)
 envman add --key "GIT_CLONE_COMMIT_AUTHOR_NAME" --value "$GIT_CLONE_COMMIT_AUTHOR_NAME"
