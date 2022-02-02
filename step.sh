@@ -27,8 +27,8 @@ git checkout origin/$branch
 echo "git fetch --depth 1 origin main"
 git fetch --depth 1 origin main
 
-echo "git merge main"
-git merge main
+echo "git merge origin/main"
+git merge origin/main
 
 envman add --key "GIT_CLONE_COMMIT_AUTHOR_NAME" --value "$(git "log" "-1" "--format=%an" $commit)"
 echo "GIT_CLONE_COMMIT_AUTHOR_NAME: ${GIT_CLONE_COMMIT_AUTHOR_NAME}"
