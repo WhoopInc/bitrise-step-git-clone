@@ -15,14 +15,17 @@ git config --global gc.auto 0 || true
 echo "git remote add origin $repository_url"
 git remote add origin $repository_url
 
+echo "git fetch --depth=1 --no-tags origin refs/head/main"
+git fetch --depth=1 --no-tags origin refs/head/main
+
+echo "git checkout main"
+git checkout main
+
 echo "git fetch --depth=1 --no-tags origin $commit"
 git fetch --depth=1 --no-tags origin $commit
 
-echo "git checkout $commit"
-git checkout $commit
-
-echo "git merge origin/$branch_dest"
-git merge origin/$branch_dest
+echo "git merge $commit"
+git merge $commit
 
 envman add --key "GIT_CLONE_COMMIT_AUTHOR_NAME" --value "$(git "log" "-1" "--format=%an" $commit)"
 echo "GIT_CLONE_COMMIT_AUTHOR_NAME: ${GIT_CLONE_COMMIT_AUTHOR_NAME}"
