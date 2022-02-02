@@ -21,14 +21,11 @@ git fetch --depth=1 --no-tags origin $branch
 echo "git checkout $branch"
 git checkout $branch
 
-echo "git fetch --no-tags origin main"
+echo "git fetch --no-tags --depth=1 origin main"
 git fetch --no-tags origin main
 
-echo "git log -n 1 main"
-git log -n 1 main
-
-echo "git merge $(git log -n 1 main) --allow-unrelated-histories"
-git merge $(git log -n 1 main) --allow-unrelated-histories
+echo "git merge main --allow-unrelated-histories"
+git merge main --allow-unrelated-histories
 
 envman add --key "GIT_CLONE_COMMIT_AUTHOR_NAME" --value "$(git "log" "-1" "--format=%an" $commit)"
 echo "GIT_CLONE_COMMIT_AUTHOR_NAME: ${GIT_CLONE_COMMIT_AUTHOR_NAME}"
