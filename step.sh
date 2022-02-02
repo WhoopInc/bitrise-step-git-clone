@@ -17,8 +17,8 @@ git config --global gc.auto 0 || true
 echo "$(date +"%H:%M:%S") - git remote add origin $repository_url"
 git remote add origin $repository_url
 
-echo "$(date +"%H:%M:%S") - git clone --no-tags --single-branch --depth=1 --branch=$branch_dest $repository_url"
-git clone --no-tags --single-branch --depth=1 --branch=$branch_dest $repository_url
+echo "$(date +"%H:%M:%S") - git clone --verbose --progress --no-tags --single-branch --depth=1 --branch=$branch_dest $repository_url"
+git clone --verbose --progress --no-tags --single-branch --depth=1 --branch=$branch_dest $repository_url
 
 echo "$(date +"%H:%M:%S") - git fetch --jobs=10 --no-tags origin $branch"
 git fetch --jobs=10 --no-tags origin $branch
