@@ -24,8 +24,8 @@ git fetch origin $branch
 echo "git checkout origin/$branch"
 git checkout origin/$branch
 
-echo "git fetch --depth 1 origin main"
-git fetch --depth 1 origin main
+echo "git fetch origin main"
+git fetch origin main
 
 echo "git merge origin/main"
 git merge origin/main
