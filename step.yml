@@ -1,0 +1,129 @@
+#
+# A couple of useful guides & docs:
+#
+# - Main Bitrise CLI docs: https://github.com/bitrise-io/bitrise/tree/master/_docs
+# - Step Development Guideline: https://github.com/bitrise-io/bitrise/blob/master/_docs/step-development-guideline.md
+# - Bitrise.yml format spec: https://github.com/bitrise-io/bitrise/blob/master/_docs/bitrise-yml-format-spec.md
+# - Bitrise docs: http://devcenter.bitrise.io/
+# - Bitrise CLI guides: http://devcenter.bitrise.io/bitrise-cli/
+
+title: |-
+  git-clone
+summary: |
+  Bitrise step that clones a commit
+description: |
+  Bitrise step that clones a commit
+website: https://github.com/WhoopInc/bitrise-step-git-clone
+source_code_url: https://github.com/WhoopInc/bitrise-step-git-clone
+support_url: https://github.com/WhoopInc/bitrise-step-git-clone/issues
+project_type_tags:
+  - android
+  - ios
+
+type_tags:
+  - utility
+
+is_requires_admin_user: false
+is_always_run: false
+is_skippable: false
+
+toolkit:
+  bash:
+    entry_file: step.sh
+
+inputs:
+  - repository_url: $GIT_REPOSITORY_URL
+    opts:
+      title: "Git repository URL"
+      is_required: true
+  - clone_dir: $BITRISE_SOURCE_DIR
+    opts:
+      title: "Clone destination on Bitrise stack"
+      is_required: true
+  - commit: $BITRISE_GIT_COMMIT
+    opts:
+      title: Git Commit to clone
+  - tag: $BITRISE_GIT_TAG
+    opts:
+      category: Clone arguments
+      title: Git Tag to clone
+      is_dont_change_value: true
+  - branch: $BITRISE_GIT_BRANCH
+    opts:
+      category: Clone arguments
+      title: Git branch to clone
+      is_dont_change_value: true
+  - branch_dest: $BITRISEIO_GIT_BRANCH_DEST
+    opts:
+      category: Clone arguments
+      title: Destination git branch, used for pull requests
+      is_dont_change_value: true
+  - pull_request_id: $PULL_REQUEST_ID
+    opts:
+      category: Clone arguments
+      title: Pull request ID on GitHub
+      is_dont_change_value: true
+  - pull_request_repository_url: $BITRISEIO_PULL_REQUEST_REPOSITORY_URL
+    opts:
+      category: Clone arguments
+      title: Pull request git URL
+      is_dont_change_value: true
+  - pull_request_merge_branch: $BITRISEIO_PULL_REQUEST_MERGE_BRANCH
+    opts:
+      category: Clone arguments
+      title: Merged pull request branch
+      is_dont_change_value: true
+  - pull_request_head_branch: $BITRISEIO_PULL_REQUEST_HEAD_BRANCH
+    opts:
+      category: Clone arguments
+      title: Pull request head branch
+      description: |-
+        If the Git hosting provider system supports and provides this,
+        this special git ref should point to the source of the pull request.
+      is_dont_change_value: true
+  - merge_pr: "yes"
+    opts:
+      category: Checkout options
+      title: Merge the Pull Request source branch into destination
+      summary: Allows to validate a temporary merged state.
+      description: |-
+        Disables merging the source and destination branches.
+        - `yes`: The default setting. Merges the source branch into the destination branch.
+        - `no`: Treats Pull Request events as Push events on the source branch.
+      value_options:
+        - "yes"
+        - "no"
+  - sparse_directories: ""
+    opts:
+      category: Checkout options
+      title: Specify which directories to clone.
+      description: |-
+        Limit which directories should be cloned during the build. This could be useful if a repository contains multiple platforms, so called monorepositories, and the build is only targeting a single platform.
+        For example, specifying "src/android" the Step will only clone:
+        - contents of the root directory and
+        - contents of the "src/android" directory and all subdirectories of "src/android".
+        On the other hand, "src/ios" and any other directories will not be cloned.
+  - reset_repository: "No"
+    opts:
+      category: Debug
+      summary: Reset repository contents with git reset --hard HEAD and git clean -f after repository updated.
+      title: Reset repository
+      value_options:
+        - "No"
+        - "Yes"
+  outputs:
+    - GIT_CLONE_COMMIT_HASH:
+      opts:
+        title: Cloned git commit's commit hash
+    - GIT_CLONE_COMMIT_MESSAGE_SUBJECT:
+      opts:
+        title: Cloned git commit's message subject
+    - GIT_CLONE_COMMIT_MESSAGE_BODY:
+      opts:
+        title: Cloned git commit's message body
+    - GIT_CLONE_COMMIT_AUTHOR_NAME:
+      opts:
+        title: Cloned git commit's author name
+    - GIT_CLONE_COMMIT_AUTHOR_EMAIL:
+      opts:
+        title: Cloned git commit's author email address
