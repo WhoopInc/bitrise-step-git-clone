@@ -15,8 +15,8 @@ git config --global gc.auto 0 || true
 echo "git remote add origin $repository_url"
 git remote add origin $repository_url
 
-echo "git clone --no-tags --single-branch --depth=1 -b $branch"
-git clone --no-tags --single-branch --depth=1 -b $branch
+echo "git clone --no-tags --single-branch --depth=1 -b $branch $repository_url"
+git clone --no-tags --single-branch --depth=1 -b $branch $repository_url
 
 echo "git branch --all"
 git branch --all
