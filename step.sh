@@ -1,33 +1,35 @@
 #!/bin/sh
+echo "START - $(date +"%H:%M:%S")"
+
 set -e
 
 cd /Users/vagrant/git
 
-echo "git init"
+echo "$(date +"%H:%M:%S") - git init"
 git init
 
-echo "git config --global url.'ssh://git@github.com'.insteadOf 'https://github.com' || true"
+echo "$(date +"%H:%M:%S") - git config --global url.'ssh://git@github.com'.insteadOf 'https://github.com' || true"
 git config --global url."ssh://git@github.com".insteadOf "https://github.com" || true
 
-echo "git config --global gc.auto 0 || true"
+echo "$(date +"%H:%M:%S") - git config --global gc.auto 0 || true"
 git config --global gc.auto 0 || true
 
-echo "git remote add origin $repository_url"
+echo "$(date +"%H:%M:%S") - git remote add origin $repository_url"
 git remote add origin $repository_url
 
-echo "git clone --no-tags --single-branch --branch=$branch_dest $repository_url"
+echo "$(date +"%H:%M:%S") - git clone --no-tags --single-branch --branch=$branch_dest $repository_url"
 git clone --no-tags --single-branch --branch=$branch_dest $repository_url
 
-echo "git fetch origin $branch"
+echo "$(date +"%H:%M:%S") - git fetch origin $branch"
 git fetch origin $branch
 
-echo "git checkout origin/$branch"
+echo "$(date +"%H:%M:%S") - git checkout origin/$branch"
 git checkout origin/$branch
 
-echo "git fetch origin $branch_dest"
+echo "$(date +"%H:%M:%S") - git fetch origin $branch_dest"
 git fetch origin $branch_dest
 
-echo "git merge origin/$branch_dest"
+echo "$(date +"%H:%M:%S") - git merge origin/$branch_dest"
 git merge origin/$branch_dest
 
 GIT_CLONE_COMMIT_AUTHOR_NAME=$(git "log" "-1" "--format=%an" $commit)
@@ -49,3 +51,5 @@ echo "GIT_CLONE_COMMIT_MESSAGE_SUBJECT: ${GIT_CLONE_COMMIT_MESSAGE_SUBJECT}"
 GIT_CLONE_COMMIT_MESSAGE_BODY=$(git "log" "-1" "--format=%b" $commit)
 envman add --key "GIT_CLONE_COMMIT_MESSAGE_BODY" --value "$GIT_CLONE_COMMIT_MESSAGE_BODY"
 echo "GIT_CLONE_COMMIT_MESSAGE_BODY: ${GIT_CLONE_COMMIT_MESSAGE_BODY}"
+
+echo "END - $(date +"%H:%M:%S")"
