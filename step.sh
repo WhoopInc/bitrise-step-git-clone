@@ -17,8 +17,8 @@ git config --global gc.auto 0 || true
 echo "$(date +"%H:%M:%S") - git remote add origin $repository_url"
 git remote add origin $repository_url
 
-echo "$(date +"%H:%M:%S") - git fetch --no-tags --jobs=10 origin $branch"
-git fetch --no-tags --jobs=10 origin $branch
+echo "$(date +"%H:%M:%S") - git fetch --no-tags --jobs=10 origin refs/heads/$branch"
+git fetch --no-tags --jobs=10 origin refs/heads/$branch
 
 echo "$(date +"%H:%M:%S") - git checkout $branch"
 git checkout $branch
