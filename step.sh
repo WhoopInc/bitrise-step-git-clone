@@ -1,7 +1,7 @@
 #!/bin/sh
 set -e
 
-mkdir /Users/vagrant/git
+cd /Users/vagrant/git
 
 git config --global url."ssh://git@github.com".insteadOf "https://github.com" || true
 git config --global gc.auto 0 || true
