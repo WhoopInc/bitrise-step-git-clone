@@ -3,11 +3,13 @@ set -e
 
 cd /Users/vagrant/git
 
+git init
+
 git config --global url."ssh://git@github.com".insteadOf "https://github.com" || true
 git config --global gc.auto 0 || true
 
 git remote add origin $repository_url
-git clone --no-tags --single-branch --depth=1
+git clone -b $branch --no-tags --single-branch --depth=1 $repository_url
 git merge origin/$branch_dest
 
 envman add --key "GIT_CLONE_COMMIT_AUTHOR_NAME" --value "$(git "log" "-1" "--format=%an" $commit)"
