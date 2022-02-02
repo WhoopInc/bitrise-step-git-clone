@@ -15,8 +15,8 @@ git config --global gc.auto 0 || true
 echo "git remote add origin $repository_url"
 git remote add origin $repository_url
 
-echo "git fetch --depth=1 --no-tags origin refs/head/main"
-git fetch --depth=1 --no-tags origin refs/head/main
+echo "git fetch --no-tags origin main"
+git fetch --no-tags origin main
 
 echo "git checkout main"
 git checkout main
