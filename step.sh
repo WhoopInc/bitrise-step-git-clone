@@ -15,14 +15,20 @@ git config --global gc.auto 0 || true
 echo "git remote add origin $repository_url"
 git remote add origin $repository_url
 
-echo "git fetch --no-tags --single-branch --branch=$branch"
-git fetch --no-tags --single-branch --branch=$branch
+echo "git clone --no-tags --single-branch --depth=1 --branch=$branch $repository_url"
+git clone --no-tags --single-branch --depth=1 --branch=$branch $repository_url
 
-echo "git checkout $branch"
-git checkout $branch
+echo "git fetch origin $branch"
+git fetch origin $branch
 
-echo "git fetch --no-tags --single-branch --branch=main"
-git fetch --no-tags --single-branch --branch=main
+echo "git checkout origin/$branch"
+git checkout origin/$branch
+
+echo "git clone --no-tags --single-branch --depth=1 --branch=main $repository_url"
+git clone --no-tags --single-branch --depth=1 --branch=main $repository_url
+
+echo "git fetch origin main"
+git fetch origin main
 
 echo "git merge main"
 git merge main
