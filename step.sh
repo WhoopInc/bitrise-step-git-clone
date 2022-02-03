@@ -21,7 +21,7 @@ echo "$(date +"%H:%M:%S") - git clone --verbose --progress --no-tags --single-br
 git clone --verbose --progress --no-tags --single-branch --depth=1 --branch=$branch_dest $repository_url
 
 echo "$(date +"%H:%M:%S") - git fetch --jobs=10 --no-tags origin $branch"
-git fetch --jobs=10 --no-tags origin $branch
+git fetch --jobs=10 --no-tags --depth=1 origin $branch
 
 echo "$(date +"%H:%M:%S") - git merge origin/$branch"
 git merge origin/$branch
