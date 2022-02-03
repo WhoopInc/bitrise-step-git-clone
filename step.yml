@@ -10,9 +10,10 @@
 title: |-
   git-clone
 summary: |
-  Bitrise step that clones a commit
+  Bitrise step to checkout code
 description: |
-  Bitrise step that clones a commit
+  Bitrise step to checkout code. This step checks out branches/tags for builds and optionally merges with the main branch
+  in the case of PR builds
 website: https://github.com/WhoopInc/bitrise-step-git-clone
 source_code_url: https://github.com/WhoopInc/bitrise-step-git-clone
 support_url: https://github.com/WhoopInc/bitrise-step-git-clone/issues
@@ -43,44 +44,27 @@ inputs:
   - commit: $BITRISE_GIT_COMMIT
     opts:
       title: Git Commit to clone
+      is_required: true
   - tag: $BITRISE_GIT_TAG
     opts:
-      category: Clone arguments
       title: Git Tag to clone
-      is_dont_change_value: true
+      is_required: true
   - branch: $BITRISE_GIT_BRANCH
     opts:
-      category: Clone arguments
       title: Git branch to clone
-      is_dont_change_value: true
+      is_required: true
   - branch_dest: $BITRISEIO_GIT_BRANCH_DEST
     opts:
-      category: Clone arguments
-      title: Destination git branch, used for pull requests
-      is_dont_change_value: true
+      title: Destination git branch, used for PRs
+      is_required: true
   - pull_request_id: $PULL_REQUEST_ID
     opts:
-      category: Clone arguments
       title: Pull request ID on GitHub
-      is_dont_change_value: true
-  - pull_request_repository_url: $BITRISEIO_PULL_REQUEST_REPOSITORY_URL
+      is_required: true
+  - merge: "yes"
     opts:
-      category: Clone arguments
-      title: Pull request git URL
-      is_dont_change_value: true
-  - pull_request_merge_branch: $BITRISEIO_PULL_REQUEST_MERGE_BRANCH
-    opts:
-      category: Clone arguments
-      title: Merged pull request branch
-      is_dont_change_value: true
-  - pull_request_head_branch: $BITRISEIO_PULL_REQUEST_HEAD_BRANCH
-    opts:
-      category: Clone arguments
-      title: Pull request head branch
-      description: |-
-        If the Git hosting provider system supports and provides this,
-        this special git ref should point to the source of the pull request.
-      is_dont_change_value: true
+      title: Whether to merge from main branch on PRs
+      is_required: true
 outputs:
   - GIT_CLONE_COMMIT_HASH:
     opts:
