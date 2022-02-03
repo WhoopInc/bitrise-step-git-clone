@@ -35,8 +35,8 @@ then
   git merge origin/$branch
 # if merge from main branch not required, do a shallow branch clone
 else
-  echo "$(date +"%H:%M:%S") - git clone --no-tags --single-branch --depth=1 --branch=$branch $repository_url"
-  git clone --no-tags --single-branch --depth=1 --branch=$branch $repository_url
+  echo "$(date +"%H:%M:%S") - git clone --verbose --progress --no-tags --single-branch --depth=1 --branch=$branch $repository_url"
+  git clone --verbose --progress --no-tags --single-branch --depth=1 --branch=$branch $repository_url
 fi
 
 # set env vars used in step.yml output
