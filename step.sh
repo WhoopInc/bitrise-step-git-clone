@@ -19,9 +19,11 @@ git config --global gc.auto 0
 echo "$(date +"%H:%M:%S") - git remote add origin $repository_url"
 git remote add origin $repository_url
 
-# if tag is present shallow clone tag
+# if tag is present shallow fetch tag and shallow clone tag
 if [ -n "$tag" ];
 then
+  echo "$(date +"%H:%M:%S") - git fetch --jobs=10 --depth=1 origin $tag"
+  git fetch --jobs=10 --depth=1 origin $tag
   echo "$(date +"%H:%M:%S") - git clone --single-branch --depth=1 --branch=$tag $repository_url"
   git clone --single-branch --depth=1 --branch=$tag $repository_url
 # if triggered by a PR and merge from main branch is required shallow clone main branch and merge shallow fetched PR branch
@@ -33,7 +35,7 @@ then
   git fetch --jobs=10 --no-tags --depth=1 origin $branch
   echo "$(date +"%H:%M:%S") - git merge origin/$branch"
   git merge origin/$branch
-# if merge from main branch not required, do a shallow branch clone
+# if merge from main branch not required, shallow fetch branch and shallow branch clone
 else
   echo "$(date +"%H:%M:%S") - git fetch --jobs=10 --no-tags --depth=1 origin $branch"
   git fetch --jobs=10 --no-tags --depth=1 origin $branch
