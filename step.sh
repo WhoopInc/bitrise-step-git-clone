@@ -3,7 +3,7 @@ echo "START - $(date +"%H:%M:%S")"
 
 set -e
 
-cd /Users/vagrant/git
+cd $BITRISE_SOURCE_DIR
 
 echo "$(date +"%H:%M:%S") - git init"
 git init
