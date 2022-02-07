@@ -13,9 +13,6 @@ git config --global url."ssh://git@github.com".insteadOf "https://github.com"
 echo "$(date +"%H:%M:%S") - git config --global gc.auto 0"
 git config --global gc.auto 0
 
-echo "$(date +"%H:%M:%S") - git remote add origin $repository_url"
-git remote add origin $repository_url
-
 # if tag is present shallow fetch tag and shallow clone tag
 if [ -n "$tag" ];
 then
