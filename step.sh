@@ -15,22 +15,12 @@ git config --global url."ssh://git@github.com".insteadOf "https://github.com"
 echo "$(date +"%H:%M:%S") - git config --global gc.auto 0"
 git config --global gc.auto 0
 
-# if triggered by a PR and merge from main branch is required shallow clone main branch and merge shallow fetched PR branch
-if [ -n "$pull_request_id" ] && [ "$merge" = "yes" ];
-then
-  echo "$(date +"%H:%M:%S") - git clone --no-tags --single-branch --depth=1 --branch=$branch_dest $repository_url ."
-  git clone --no-tags --single-branch --depth=1 --branch=$branch_dest $repository_url .
-  echo "$(date +"%H:%M:%S") - git fetch --jobs=10 --no-tags --depth=1 origin $branch"
-  git fetch --jobs=10 --no-tags --depth=1 origin $branch
-  echo "$(date +"%H:%M:%S") - git merge origin/$branch"
-  git merge origin/$branch
-# if merge from main branch not required, shallow fetch branch and shallow branch clone
-else
-  echo "$(date +"%H:%M:%S") - git fetch --jobs=10 --no-tags --depth=1 origin $branch"
-  git fetch --jobs=10 --no-tags --depth=1 origin $branch
-  echo "$(date +"%H:%M:%S") - git clone --no-tags --single-branch --depth=1 --branch=$branch $repository_url ."
-  git clone --no-tags --single-branch --depth=1 --branch=$branch $repository_url .
-fi
+echo "$(date +"%H:%M:%S") - git clone --no-tags --single-branch --depth=1 --branch=$branch_dest $repository_url ."
+git clone --no-tags --single-branch --depth=1 --branch=$branch_dest $repository_url .
+echo "$(date +"%H:%M:%S") - git fetch --jobs=10 --no-tags --depth=1 origin $branch"
+git fetch --jobs=10 --no-tags --depth=1 origin $branch
+echo "$(date +"%H:%M:%S") - git merge origin/$branch"
+git merge origin/$branch
 
 # set env vars used in step.yml output
 GIT_CLONE_COMMIT_AUTHOR_NAME=$(git "log" "-1" "--format=%an" $commit)
