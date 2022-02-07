@@ -5,9 +5,6 @@ set -e
 
 cd $clone_dir
 
-echo "$(date +"%H:%M:%S") - git init -q"
-git init -q
-
 # configure git to use ssh to bypass password prompts
 echo "$(date +"%H:%M:%S") - git config --global url.'ssh://git@github.com'.insteadOf 'https://github.com'"
 git config --global url."ssh://git@github.com".insteadOf "https://github.com"
