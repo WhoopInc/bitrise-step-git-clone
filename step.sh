@@ -19,9 +19,6 @@ git config --global gc.auto 0
 echo "$(date +"%H:%M:%S") - git remote add origin $repository_url"
 git remote add origin $repository_url
 
-
-printenv
-
 # if tag is present shallow fetch tag and shallow clone tag
 if [ -n "$tag" ];
 then
