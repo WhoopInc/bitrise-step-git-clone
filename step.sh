@@ -24,13 +24,13 @@ if [ -n "$tag" ];
 then
   echo "$(date +"%H:%M:%S") - git fetch --jobs=10 --depth=1 origin $tag"
   git fetch --jobs=10 --depth=1 origin $tag
-  echo "$(date +"%H:%M:%S") - git clone --single-branch --depth=1 --branch=$tag $repository_url"
-  git clone --single-branch --depth=1 --branch=$tag $repository_url
+  echo "$(date +"%H:%M:%S") - git clone --single-branch --depth=1 --branch=$tag $repository_url ."
+  git clone --single-branch --depth=1 --branch=$tag $repository_url .
 # if triggered by a PR and merge from main branch is required shallow clone main branch and merge shallow fetched PR branch
 elif [ -n "$pull_request_id" ] && [ "$merge" = "yes" ];
 then
-  echo "$(date +"%H:%M:%S") - git clone --no-tags --single-branch --depth=1 --branch=$branch_dest $repository_url"
-  git clone --no-tags --single-branch --depth=1 --branch=$branch_dest $repository_url
+  echo "$(date +"%H:%M:%S") - git clone --no-tags --single-branch --depth=1 --branch=$branch_dest $repository_url ."
+  git clone --no-tags --single-branch --depth=1 --branch=$branch_dest $repository_url .
   echo "$(date +"%H:%M:%S") - git fetch --jobs=10 --no-tags --depth=1 origin $branch"
   git fetch --jobs=10 --no-tags --depth=1 origin $branch
   echo "$(date +"%H:%M:%S") - git merge origin/$branch"
@@ -39,8 +39,8 @@ then
 else
   echo "$(date +"%H:%M:%S") - git fetch --jobs=10 --no-tags --depth=1 origin $branch"
   git fetch --jobs=10 --no-tags --depth=1 origin $branch
-  echo "$(date +"%H:%M:%S") - git clone --no-tags --single-branch --depth=1 --branch=$branch $repository_url"
-  git clone --no-tags --single-branch --depth=1 --branch=$branch $repository_url
+  echo "$(date +"%H:%M:%S") - git clone --no-tags --single-branch --depth=1 --branch=$branch $repository_url ."
+  git clone --no-tags --single-branch --depth=1 --branch=$branch $repository_url .
 fi
 
 # set env vars used in step.yml output
