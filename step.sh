@@ -3,9 +3,10 @@ echo "START - $(date +"%H:%M:%S")"
 
 set -e
 
-rm -rf $clone_dir
-mkdir $clone_dir
 cd $clone_dir
+
+echo "$(date +"%H:%M:%S") - git init -q"
+git init -q
 
 # configure git to use ssh to bypass password prompts
 echo "$(date +"%H:%M:%S") - git config --global url.'ssh://git@github.com'.insteadOf 'https://github.com'"
@@ -15,12 +16,32 @@ git config --global url."ssh://git@github.com".insteadOf "https://github.com"
 echo "$(date +"%H:%M:%S") - git config --global gc.auto 0"
 git config --global gc.auto 0
 
-echo "$(date +"%H:%M:%S") - git clone --no-tags --single-branch --depth=1 --branch=$branch_dest $repository_url ."
-git clone --no-tags --single-branch --depth=1 --branch=$branch_dest $repository_url .
-echo "$(date +"%H:%M:%S") - git fetch --jobs=10 --no-tags --depth=1 origin $branch"
-git fetch --jobs=10 --no-tags --depth=1 origin $branch
-echo "$(date +"%H:%M:%S") - git merge origin/$branch"
-git merge origin/$branch
+echo "$(date +"%H:%M:%S") - git remote add origin $repository_url"
+git remote add origin $repository_url
+
+# if tag is present shallow fetch tag and shallow clone tag
+if [ -n "$tag" ];
+then
+  echo "$(date +"%H:%M:%S") - git fetch --jobs=10 --depth=1 origin $tag"
+  git fetch --jobs=10 --depth=1 origin $tag
+  echo "$(date +"%H:%M:%S") - git clone --single-branch --depth=1 --branch=$tag $repository_url"
+  git clone --single-branch --depth=1 --branch=$tag $repository_url
+# if triggered by a PR and merge from main branch is required shallow clone main branch and merge shallow fetched PR branch
+elif [ -n "$pull_request_id" ] && [ "$merge" = "yes" ];
+then
+  echo "$(date +"%H:%M:%S") - git clone --no-tags --single-branch --depth=1 --branch=$branch_dest $repository_url"
+  git clone --no-tags --single-branch --depth=1 --branch=$branch_dest $repository_url
+  echo "$(date +"%H:%M:%S") - git fetch --jobs=10 --no-tags --depth=1 origin $branch"
+  git fetch --jobs=10 --no-tags --depth=1 origin $branch
+  echo "$(date +"%H:%M:%S") - git merge origin/$branch"
+  git merge origin/$branch
+# if merge from main branch not required, shallow fetch branch and shallow branch clone
+else
+  echo "$(date +"%H:%M:%S") - git fetch --jobs=10 --no-tags --depth=1 origin $branch"
+  git fetch --jobs=10 --no-tags --depth=1 origin $branch
+  echo "$(date +"%H:%M:%S") - git clone --no-tags --single-branch --depth=1 --branch=$branch $repository_url"
+  git clone --no-tags --single-branch --depth=1 --branch=$branch $repository_url
+fi
 
 # set env vars used in step.yml output
 GIT_CLONE_COMMIT_AUTHOR_NAME=$(git "log" "-1" "--format=%an" $commit)
@@ -42,5 +63,9 @@ echo "GIT_CLONE_COMMIT_MESSAGE_SUBJECT: ${GIT_CLONE_COMMIT_MESSAGE_SUBJECT}"
 GIT_CLONE_COMMIT_MESSAGE_BODY=$(git "log" "-1" "--format=%b" $commit)
 envman add --key "GIT_CLONE_COMMIT_MESSAGE_BODY" --value "$GIT_CLONE_COMMIT_MESSAGE_BODY"
 echo "GIT_CLONE_COMMIT_MESSAGE_BODY: ${GIT_CLONE_COMMIT_MESSAGE_BODY}"
+
+BITRISE_SOURCE_DIR="$clone_dir/$BITRISEIO_GIT_REPOSITORY_SLUG"
+envman add --key "BITRISE_SOURCE_DIR" --value "$BITRISE_SOURCE_DIR"
+echo "BITRISE_SOURCE_DIR: ${BITRISE_SOURCE_DIR}"
 
 echo "END - $(date +"%H:%M:%S")"
