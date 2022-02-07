@@ -1,0 +1,83 @@
+#
+# A couple of useful guides & docs:
+#
+# - Main Bitrise CLI docs: https://github.com/bitrise-io/bitrise/tree/master/_docs
+# - Step Development Guideline: https://github.com/bitrise-io/bitrise/blob/master/_docs/step-development-guideline.md
+# - Bitrise.yml format spec: https://github.com/bitrise-io/bitrise/blob/master/_docs/bitrise-yml-format-spec.md
+# - Bitrise docs: http://devcenter.bitrise.io/
+# - Bitrise CLI guides: http://devcenter.bitrise.io/bitrise-cli/
+
+title: |-
+  git-clone
+summary: |
+  Bitrise step to checkout code
+description: |
+  Bitrise step to checkout code. This step checks out branches/tags for builds and optionally merges with the main branch
+  in the case of PR builds
+website: https://github.com/WhoopInc/bitrise-step-git-clone
+source_code_url: https://github.com/WhoopInc/bitrise-step-git-clone
+support_url: https://github.com/WhoopInc/bitrise-step-git-clone/issues
+project_type_tags:
+  - android
+  - ios
+
+type_tags:
+  - utility
+
+is_requires_admin_user: false
+is_always_run: false
+is_skippable: false
+
+toolkit:
+  bash:
+    entry_file: step.sh
+
+inputs:
+  - repository_url: $GIT_REPOSITORY_URL
+    opts:
+      title: "Git repository URL"
+      is_required: true
+  - clone_dir: $BITRISE_SOURCE_DIR
+    opts:
+      title: "Clone destination on Bitrise stack"
+      is_required: true
+  - commit: $BITRISE_GIT_COMMIT
+    opts:
+      title: Git Commit to clone
+      is_required: true
+  - tag: $BITRISE_GIT_TAG
+    opts:
+      title: Git Tag to clone
+      is_required: true
+  - branch: $BITRISE_GIT_BRANCH
+    opts:
+      title: Git branch to clone
+      is_required: true
+  - branch_dest: $BITRISEIO_GIT_BRANCH_DEST
+    opts:
+      title: Destination git branch, used for PRs
+      is_required: true
+  - pull_request_id: $PULL_REQUEST_ID
+    opts:
+      title: Pull request ID on GitHub
+      is_required: true
+  - merge: "yes"
+    opts:
+      title: Whether to merge from main branch on PRs
+      is_required: true
+outputs:
+  - GIT_CLONE_COMMIT_HASH:
+    opts:
+      title: Cloned git commit's commit hash
+  - GIT_CLONE_COMMIT_MESSAGE_SUBJECT:
+    opts:
+      title: Cloned git commit's message subject
+  - GIT_CLONE_COMMIT_MESSAGE_BODY:
+    opts:
+      title: Cloned git commit's message body
+  - GIT_CLONE_COMMIT_AUTHOR_NAME:
+    opts:
+      title: Cloned git commit's author name
+  - GIT_CLONE_COMMIT_AUTHOR_EMAIL:
+    opts:
+      title: Cloned git commit's author email address
