@@ -31,8 +31,11 @@ elif [ -n "$pull_request_id" ] && [ "$merge" = "yes" ];
 then
   echo "$(date +"%H:%M:%S") - git clone --no-tags --single-branch --depth=1 --branch=$branch_dest $repository_url"
   git clone --no-tags --single-branch --depth=1 --branch=$branch_dest $repository_url
+  pwd
+  ls -lah
   echo "$(date +"%H:%M:%S") - git fetch --jobs=10 --no-tags --depth=1 origin $branch"
   git fetch --jobs=10 --no-tags --depth=1 origin $branch
+  ls -lah
   echo "$(date +"%H:%M:%S") - git merge origin/$branch"
   git merge origin/$branch
 # if merge from main branch not required, shallow fetch branch and shallow branch clone
