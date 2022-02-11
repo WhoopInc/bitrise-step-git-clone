@@ -33,11 +33,15 @@ then
   git clone --no-tags --single-branch --depth=1 --branch=$branch_dest $repository_url
   pwd
   ls -lah
+  ls -lah basic-ios
   echo "$(date +"%H:%M:%S") - git fetch --jobs=10 --no-tags --depth=1 origin $branch"
   git fetch --jobs=10 --no-tags --depth=1 origin $branch
   ls -lah
+  ls -lah basic-ios
   echo "$(date +"%H:%M:%S") - git merge origin/$branch"
   git merge origin/$branch
+  ls -lah
+  ls -lah basic-ios
 # if merge from main branch not required, shallow fetch branch and shallow branch clone
 else
   echo "$(date +"%H:%M:%S") - git fetch --jobs=10 --no-tags --depth=1 origin $branch"
