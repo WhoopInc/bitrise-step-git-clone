@@ -81,3 +81,7 @@ outputs:
   - GIT_CLONE_COMMIT_AUTHOR_EMAIL:
     opts:
       title: Cloned git commit's author email address
+  - BITRISE_SOURCE_DIR:
+      opts:
+        title: Directory that contains the cloned Git repository
+        summary: Working dir for all Bitrise actions
